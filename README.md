@@ -29,7 +29,7 @@ Clonez ou téléchargez ce projet sur votre machine locale.
 
 ```bash
 git clone https://github.com/NeoDarwin/cyber01.git
-cd <dossier-du-projet>
+cd cyber01
 ```
 
 ### 2. Lancer les Conteneurs avec Docker Compose
