@@ -114,7 +114,7 @@ Cet environnement vous permet de tester et de comprendre plusieurs attaques cour
 
 ## Auteurs
 
-- **Auteur** : [Votre Nom]
+- **Auteur** : JEAN-FRANCOIS MARQUETTE
 
 --- 
 
