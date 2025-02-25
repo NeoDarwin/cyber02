@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  db:
+    image: mariadb:10.5
+    container_name: mariadb_auth
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: example     # Mot de passe root
+      MARIADB_DATABASE: cyber1         # Nom de la DB à créer
+      MARIADB_USER: admin                # Nom d'utilisateur
+      MARIADB_PASSWORD: P@$$w0rd   # Mot de passe
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+
+  web:
+    build: ./web
+    container_name: php_auth
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: cyber1
+      DB_USER: admin
+      DB_PASSWORD: P@$$w0rd
+
+volumes:
+  db_data:
