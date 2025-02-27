@@ -1,11 +1,15 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
 
-# Installation de l'extension mysqli pour MariaDB/MySQL
-RUN docker-php-ext-install mysqli
+# Installer les extensions nécessaires pour PDO et MySQL
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_mysql
 
-# Copie du code source dans le dossier par défaut d'Apache
+# Activer mod_rewrite pour Apache
+RUN a2enmod rewrite
+
+# Copier les fichiers de ton application dans le conteneur
 COPY . /var/www/html/
-
-# (Optionnel) Activation de mod_rewrite si besoin
-# RUN a2enmod rewrite
-# EXPOSE 80
+COPY ./images/ /var/www/html/images/
+RUN chown www-data images
+RUN chgrp www-data images
+# Exposer le port 80
+EXPOSE 80

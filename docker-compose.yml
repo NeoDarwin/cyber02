@@ -1,33 +1,39 @@
 version: "3.7"
 
 services:
-  db:
+  db_cyber2:
     image: mariadb:10.5
-    container_name: mariadb_auth
-    restart: always
+    container_name: db_cyber2
+    networks:
+      - my_network
     environment:
-      MARIADB_ROOT_PASSWORD: example     # Mot de passe root
-      MARIADB_DATABASE: cyber1         # Nom de la DB à créer
-      MARIADB_USER: admin                # Nom d'utilisateur
-      MARIADB_PASSWORD: P@$$w0rd   # Mot de passe
+      MARIADB_ROOT_PASSWORD: example
+      MARIADB_DATABASE: cyber2
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: P@$$w0rd
     volumes:
-      - db_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql               # Persistance des données
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Script d'initialisation
     ports:
       - "3306:3306"
 
-  web:
+  web_cyber2:
     build: ./web
-    container_name: php_auth
+    container_name: php_cyber2
     depends_on:
-      - db
+      - db_cyber2
+    networks:
+      - my_network
     ports:
       - "80:80"
     environment:
-      DB_HOST: db
-      DB_NAME: cyber1
+      DB_HOST: db_cyber2
+      DB_NAME: cyber2
       DB_USER: admin
       DB_PASSWORD: P@$$w0rd
 
+networks:
+  my_network:
+    driver: bridge
 volumes:
   db_data:
