@@ -18,11 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
+    // EXEMPLE VULNÉRABLE
+    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $query);
+    echo "la requête est : $query <br>"; 
     // Préparation de la requête pour éviter les injections SQL
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // $stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
+    // $stmt->bind_param("ss", $username, $password);    
+    //$stmt->execute();
+    //$result = $stmt->get_result();
 
     // Vérification des identifiants
     if ($result->num_rows > 0) {
@@ -30,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "<h2>Identifiants invalides. Veuillez réessayer.</h2>";
     }
-    $stmt->close();
+    //$stmt->close();
 } else {
     // Afficher le formulaire par défaut
     ?>
