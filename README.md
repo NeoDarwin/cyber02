@@ -1,4 +1,5 @@
-"# Cyber01" pour mister Mathéo  amuse toi bien
+# Cyber01 pour mister Mathéo  amuse toi bien
+
 # README - Environnement de Test de Sécurité Web
 
 ## Introduction
@@ -8,6 +9,10 @@ Ce projet consiste en un environnement Docker composé de deux services :
 2. **PHP/Apache** - Serveur web exposant un formulaire d'authentification qui interagit avec la base de données pour valider les identifiants.
 
 Cet environnement est conçu pour effectuer des **tests de sécurité** afin d'illustrer les vulnérabilités communes dans les applications web.
+
+## Différences avec Cyber01
+
+Les attaques réalisables sur **Cyber02** sont similaires à celles de **Cyber01**. Toutefois, une **faille supplémentaire** permet d'accéder au serveur. Naviguez, analysez et **trouvez cette faille**, puis exploitez-la.
 
 ## Prérequis
 
@@ -28,8 +33,8 @@ Si vous n'avez pas encore Docker et Docker Compose, vous pouvez les installer en
 Clonez ou téléchargez ce projet sur votre machine locale.
 
 ```bash
-git clone https://github.com/NeoDarwin/cyber01.git
-cd cyber01
+git clone https://github.com/NeoDarwin/cyber02.git
+cd cyber02
 ```
 
 ### 2. Lancer les Conteneurs avec Docker Compose
@@ -63,59 +68,54 @@ Si les identifiants sont valides, un message de bienvenue s'affichera. Sinon, un
 
 ## Attaques Possibles à Mener
 
-Cet environnement est conçu pour être une base d'apprentissage des attaques courantes dans les applications web. Voici les attaques que vous pouvez tester sur cet environnement.
+Cet environnement est conçu pour être une base d'apprentissage des attaques courantes dans les applications web. Voici les attaques que vous pouvez tester sur cet environnement, avec en plus **une faille permettant de pénétrer le serveur**.
 
 ### 1. **Injection SQL**
 
-L'une des attaques les plus courantes consiste à injecter des requêtes SQL malveillantes via le formulaire d'authentification. Le mot de passe est comparé dans la requête SQL sans validation adéquate, ce qui permet à un attaquant d'exécuter des commandes SQL arbitraires.
+L'une des attaques les plus courantes consiste à injecter des requêtes SQL malveillantes via le formulaire d'authentification.
 
 #### Exemple d'attaque SQL :
 
-Dans le champ **Nom d'utilisateur**, Recherchez comment faire ....
-
-Cette injection pourrait permettre de contourner la validation des utilisateurs si le mot de passe est aussi injecté dans la requête SQL.
+Recherchez comment exploiter une injection SQL dans les champs d'authentification...
 
 #### Pour se protéger :
-- Utiliser des requêtes préparées ou des ORM pour éviter les injections SQL. Corriger le code et refaite l'attaque
+- Utiliser des requêtes préparées ou des ORM pour éviter les injections SQL.
 
 ### 2. **Attaque par Force Brute**
 
-Une attaque par force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que la bonne combinaison soit trouvée. Comme cet environnement utilise des mots de passe en clair, cette attaque est facilitée.
+Une attaque par force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que la bonne combinaison soit trouvée.
 
 #### Exemple d'attaque :
 
-Un attaquant peut utiliser un script ou un outil comme **Hydra** pour envoyer des tentatives de connexion en masse sur le formulaire d'authentification.
-Recherchez comment faire...
-
+Utilisez un outil comme **Hydra** pour tester la robustesse du formulaire d'authentification.
 
 #### Pour se protéger :
-- Utiliser une gestion des tentatives de connexion avec un mécanisme de verrouillage après un certain nombre d'échecs.
-- Ajouter une solution de **captcha** pour ralentir les attaques automatisées.
-
-  Modifier le code puis refaite votre attaque
+- Mettre en place un verrouillage après plusieurs tentatives infructueuses.
 
 ### 3. **Exploitation de Mots de Passe en Clair**
 
-Les mots de passe dans cet environnement sont stockés en clair dans la base de données. Un attaquant peut facilement accéder à la base de données (en cas de compromission du serveur) et récupérer tous les mots de passe.
+Les mots de passe sont stockés en clair dans la base de données.
 
 #### Pour se protéger :
-- Utiliser un algorithme de hachage sécurisé tel que **bcrypt** ou **argon2** pour stocker les mots de passe.
-- Appliquer des pratiques de sécurité pour protéger les accès à la base de données.
-Corrigez en modifiant le code
+- Utiliser un algorithme de hachage sécurisé tel que **bcrypt** ou **argon2**.
 
+### 4. **Nouvelle faille à exploiter**
+
+Cyber02 contient une **faille permettant d'accéder au serveur**. Votre objectif : **trouver cette faille et l'exploiter** pour obtenir un accès plus profond au système.
+
+#### Pistes :
+- Explorez les requêtes envoyées par l'application.
+- Testez les points d'entrée possibles.
+- Analysez le code source pour détecter des erreurs de configuration.
 
 ## Conclusion
 
-Cet environnement vous permet de tester et de comprendre plusieurs attaques courantes dans les applications web, telles que l'injection SQL, les attaques par force brute, les failles XSS, et bien plus. Ces exercices sont un excellent moyen de comprendre comment sécuriser une application et de se protéger contre ces attaques. 
+Cyber02 vous offre un défi supplémentaire : en plus des attaques classiques, vous devez **trouver et exploiter une faille inédite**. Ce type d'exercice est une bonne mise en situation pour comprendre comment les attaquants procèdent dans un environnement réel.
 
-**N'oubliez pas** : dans un contexte de production, vous devez toujours prendre des mesures de sécurité appropriées (par exemple, hachage des mots de passe, validation des entrées, gestion des erreurs, etc.) pour protéger votre application des vulnérabilités.
+**Bonne chasse et bon apprentissage !** 🚀
 
 ---
 
 ## Auteurs
 
 - **Auteur** : JEAN-FRANCOIS MARQUETTE
-
---- 
-
-Ce README explique comment mettre en place un environnement de test de cybersécurité, avec un focus sur les différentes attaques et la façon de se protéger contre elles.
